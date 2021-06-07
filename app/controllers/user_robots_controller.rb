@@ -3,7 +3,11 @@ class UserRobotsController < ApplicationController
 
   def create
     user_robot = UserRobot.create(user_robot_params)
-    render json: user_robot
+    if user_robot.valid?
+      render json: user_robot
+    else
+      render json: { errors: user_robot.errors.full_messages }, status: :unprocessable_entity
+    end
   end
 
   def update
